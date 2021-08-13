@@ -11,7 +11,14 @@
 static const char *TAG = "storage";
 
 
+/**
+ * Initialize the non-volatile storage features.
+ */
 static void init_nvs(void);
+
+/**
+ * Initialize the SDMMC file system.
+ */
 static void init_sd(void);
 
 
@@ -27,7 +34,7 @@ void init_nvs(void) {
     error = nvs_flash_init();
 
     if (error == ESP_ERR_NVS_NO_FREE_PAGES || error == ESP_ERR_NVS_NEW_VERSION_FOUND) {
-        ESP_LOGE(TAG, "non-volatile storage initialization failed: %s", esp_err_to_name(error));
+        ESP_LOGE(TAG, "non-volatile storage initialization failed (%s)", esp_err_to_name(error));
         ESP_LOGI(TAG, "going to erase and retry");
         ESP_ERROR_CHECK(nvs_flash_erase());
         error = nvs_flash_init();
@@ -42,12 +49,12 @@ void init_sd(void) {
     sdmmc_host_t host_config = SDSPI_HOST_DEFAULT();
 
     spi_bus_config_t bus_config = {
-            .mosi_io_num = SD_PIN_MOSI,
-            .miso_io_num = SD_PIN_MISO,
-            .sclk_io_num = SD_PIN_CLK,
-            .quadwp_io_num = -1,
-            .quadhd_io_num = -1,
-            .max_transfer_sz = 4000,
+        .mosi_io_num = SD_PIN_MOSI,
+        .miso_io_num = SD_PIN_MISO,
+        .sclk_io_num = SD_PIN_CLK,
+        .quadwp_io_num = -1,
+        .quadhd_io_num = -1,
+        .max_transfer_sz = 4000,
     };
 
     sdspi_device_config_t slot_config = SDSPI_DEVICE_CONFIG_DEFAULT();

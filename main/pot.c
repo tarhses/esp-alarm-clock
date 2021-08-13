@@ -12,6 +12,7 @@
 #include "pot.h"
 #include "alarm.h"
 #include "config.h"
+#include "mathx.h"
 
 static const char* TAG = "potentiometers";
 
@@ -169,21 +170,6 @@ static void load_calibration_nvs(calibration_t* calib);
  */
 static void store_calibration_nvs(const calibration_t* calib);
 
-/**
- * Return the minimum value between a and b.
- */
-static int min(int a, int b);
-
-/**
- * Return the maximum value between a and b.
- */
-static int max(int a, int b);
-
-/**
- * Return the closest value to x checking a <= x <= b.
- */
-static int clamp(int a, int x, int b);
-
 
 void init_potentiometers(void) {
     ESP_LOGI(TAG, "initializing potentiometers");
@@ -232,8 +218,8 @@ void reading_task(void* _) {
                 .minutes = clamp(0, (int)(roundf(60.f * values.minutes)), 59),
             };
 
-            esp_event_post(ALARM_EVENT, ALARM_EVENT_CHANGED, &event, sizeof(alarm_time_t), portMAX_DELAY);
             ESP_LOGI(TAG, "alarm changed to %02d:%02d", event.hours, event.minutes);
+            esp_event_post(ALARM_EVENT, ALARM_EVENT_CHANGED, &event, sizeof(alarm_time_t), portMAX_DELAY);
         }
 
         // Sleep a bit. We can wake up early if the potentiometers have been calibrated.
@@ -243,16 +229,19 @@ void reading_task(void* _) {
 
 void calibration_task(void* _) {
     for (;;) {
+        // Wait for the calibration button to be pressed
         ulTaskNotifyTake(pdTRUE, portMAX_DELAY);
 
         ESP_LOGI(TAG, "calibration start");
         gpio_set_level(POT_PIN_CALIB_LED, 1);
 
+        // Update the calibration values until it is pressed again
         calibration_t calib = UNINITIALIZED_CALIBRATION;
         do {
             calibrate(&calib);
         } while (!ulTaskNotifyTake(pdTRUE, pdMS_TO_TICKS(100)));
 
+        // Send them to the main task, and then store them
         xQueueOverwrite(calib_queue_handle, &calib);
         store_calibration_nvs(&calib);
 
@@ -369,16 +358,4 @@ void store_calibration_nvs(const calibration_t* calib) {
     ESP_ERROR_CHECK_WITHOUT_ABORT(nvs_set_i32(handle, "minutes_max", calib->minutes_max));
 
     nvs_close(handle);
-}
-
-int min(int a, int b) {
-    return a < b ? a : b;
-}
-
-int max(int a, int b) {
-    return a > b ? a : b;
-}
-
-int clamp(int a, int x, int b) {
-    return max(a, min(x, b));
 }

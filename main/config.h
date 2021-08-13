@@ -15,4 +15,4 @@
 #define SD_PIN_CS 13
 #define SD_DMA_CHAN 1
 
-#define NET_CONFIG_PATH SD_MOUNT_POINT "/config.json"
+#define NET_CONFIG_PATH (SD_MOUNT_POINT "/config.json")
