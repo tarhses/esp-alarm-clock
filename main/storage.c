@@ -106,6 +106,33 @@ bool read_file_into(file_handle_t handle, uint8_t* buffer, size_t size, size_t* 
     return total == size;
 }
 
+bool read_file_json(file_handle_t handle, cJSON** json) {
+    uint8_t* buffer;
+    size_t size;
+    bool success = false;
+
+    if (!get_file_size(handle, &size)) {
+        return false;
+    }
+
+    buffer = malloc(size + 1);
+    buffer[size] = '\0';
+    if (!read_file_into(handle, buffer, size, NULL)) {
+        goto clean;
+    }
+
+    *json = cJSON_Parse((char*)buffer);
+    if (*json == NULL) {
+        goto clean;
+    }
+
+    success = true;
+
+clean:
+    free(buffer);
+    return success;
+}
+
 bool get_file_size(file_handle_t handle, size_t* size) {
     struct stat stat;
     if (fstat(handle, &stat) == -1) {
@@ -115,37 +142,4 @@ bool get_file_size(file_handle_t handle, size_t* size) {
 
     *size = stat.st_size;
     return true;
-}
-
-char* read_file(const char* path) {
-    file_handle_t file;
-    if (open_file(path, &file)) {
-        size_t size;
-        if (get_file_size(file, &size)) {
-            uint8_t* buffer = malloc(size + 1);
-            buffer[size] = '\0';
-            if (read_file_into(file, buffer, size, NULL)) {
-                return (char*)buffer;
-            }
-            free(buffer);
-        }
-        close_file(file);
-    }
-
-    return NULL;
-}
-
-cJSON* read_json_file(const char* path) {
-    char* bytes;
-    cJSON* json;
-
-    bytes = read_file(path);
-    if (bytes == NULL) {
-        return NULL;
-    }
-
-    json = cJSON_Parse(bytes);
-
-    free(bytes);
-    return json;
 }

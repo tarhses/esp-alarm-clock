@@ -35,10 +35,19 @@ bool close_file(file_handle_t handle);
  * @param handle File handle to use
  * @param buffer Where to put the read bytes
  * @param size How many bytes to read
- * @param bytes_read Actual number of read bytes
+ * @param bytes_read This is set to the actual number of bytes read
  * @return Whether the operation succeeded and there is still bytes to read
  */
 bool read_file_into(file_handle_t handle, uint8_t* buffer, size_t size, size_t* bytes_read);
+
+/**
+ * Try to read JSON data from a file.
+ *
+ * @param handle File handle to use
+ * @param json Where to put the read data
+ * @return Whether the operation succeeded
+ */
+bool read_file_json(file_handle_t handle, cJSON** json);
 
 /**
  * Try to get a file's size in bytes.
@@ -48,7 +57,3 @@ bool read_file_into(file_handle_t handle, uint8_t* buffer, size_t size, size_t* 
  * @return Whether the operation succeeded
  */
 bool get_file_size(file_handle_t handle, size_t* size);
-
-// TODO: refactor these
-char* read_file(const char* path);
-cJSON* read_json_file(const char* path);

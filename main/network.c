@@ -94,19 +94,24 @@ void load_config(config_t* config) {
     // cJSON functions ignore any NULL object that we could pass as argument.
     // That allows us to don't care about that.
 
+    file_handle_t file;
     cJSON *root, *item;
 
-    root = read_json_file(NET_CONFIG_PATH);
+    if (open_file(NET_CONFIG_PATH, &file)) {
+        if (read_file_json(file, &root)) {
+            item = cJSON_GetObjectItem(root, "wifi");
+            copy_if_string(&config->wifi_ssid, cJSON_GetObjectItem(item, "ssid"));
+            copy_if_string(&config->wifi_password, cJSON_GetObjectItem(item, "password"));
 
-    item = cJSON_GetObjectItem(root, "wifi");
-    copy_if_string(&config->wifi_ssid, cJSON_GetObjectItem(item, "ssid"));
-    copy_if_string(&config->wifi_password, cJSON_GetObjectItem(item, "password"));
+            item = cJSON_GetObjectItem(root, "ntp");
+            copy_if_string(&config->ntp_server, cJSON_GetObjectItem(item, "server"));
+            copy_if_string(&config->ntp_timezone, cJSON_GetObjectItem(item, "timezone"));
 
-    item = cJSON_GetObjectItem(root, "ntp");
-    copy_if_string(&config->ntp_server, cJSON_GetObjectItem(item, "server"));
-    copy_if_string(&config->ntp_timezone, cJSON_GetObjectItem(item, "timezone"));
+            cJSON_Delete(root);
+        }
 
-    cJSON_Delete(root);
+        close_file(file);
+    }
 }
 
 void copy_if_string(char** destination, const cJSON* source) {
