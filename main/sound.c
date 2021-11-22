@@ -3,6 +3,7 @@
 #include <driver/i2s.h>
 
 #include "sound.h"
+#include "config.h"
 #include "alarm.h"
 #include "storage.h"
 
@@ -18,6 +19,11 @@ static uint8_t sound_buffer[512];
 
 void init_sound(void) {
     ESP_LOGI(TAG, "initializing sound");
+
+    gpio_config(&(gpio_config_t){
+        .pin_bit_mask = BIT64(SOUND_PIN_ENABLE),
+        .mode = GPIO_MODE_OUTPUT,
+    });
 
     i2s_driver_install(I2S_NUM_0, &(i2s_config_t) {
         .mode = I2S_MODE_MASTER | I2S_MODE_TX | I2S_MODE_DAC_BUILT_IN,
@@ -52,6 +58,7 @@ void sound_task(void* _) {
                 continue;
             }
 
+            gpio_set_level(SOUND_PIN_ENABLE, 1);
             i2s_start(I2S_NUM_0);
 
             size_t bytes_read, bytes_written;
@@ -61,6 +68,8 @@ void sound_task(void* _) {
             }
 
             i2s_stop(I2S_NUM_0);
+            gpio_set_level(SOUND_PIN_ENABLE, 0);
+
             close_file(file);
         }
     }

@@ -8,6 +8,8 @@
 #define POT_PIN_CALIB_LED 19
 #define POT_PIN_CALIB_BTN 39
 
+#define SOUND_PIN_ENABLE 27
+
 #define EPD_PIN_BUSY 4
 #define EPD_PIN_RES 16
 #define EPD_PIN_DC 17
