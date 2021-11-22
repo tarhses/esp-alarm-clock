@@ -20,7 +20,7 @@ typedef enum {
 } color_t;
 
 /**
- * Allocate a new, totally black, image.
+ * Allocate a new blank image.
  *
  * @param width Image's width
  * @param height Image's height
@@ -38,7 +38,7 @@ void image_delete(image_t* self);
 /**
  * Get the color a given pixel.
  *
- * If the coordinates are out of bounds, `COLOR_BLACK` is returned instead.
+ * If the coordinates are out of bounds, `COLOR_WHITE` is returned instead.
  *
  * @param self Image to use
  * @param x X coordinate
@@ -68,3 +68,10 @@ void image_set_pixel(image_t* self, int x, int y, color_t color);
  * @param image Image to draw
  */
 void image_draw(image_t* self, int x, int y, const image_t* image);
+
+/**
+ * Fill the image with white pixels.
+ *
+ * @param self Image to clear
+ */
+void image_clear(image_t* self);

@@ -8,9 +8,6 @@
 #include "storage.h"
 #include "config.h"
 
-static const char *TAG = "storage";
-
-
 /**
  * Initialize the non-volatile storage features.
  */
@@ -21,6 +18,8 @@ static void init_nvs(void);
  */
 static void init_sd(void);
 
+
+static const char *TAG = "storage";
 
 void init_storage(void) {
     init_nvs();

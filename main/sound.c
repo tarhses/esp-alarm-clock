@@ -6,15 +6,15 @@
 #include "alarm.h"
 #include "storage.h"
 
+static void _Noreturn sound_task(void* _);
+static void alarm_started_handler(void* _, esp_event_base_t _base, int32_t _id, void* _data);
+static void alarm_stopped_handler(void* _, esp_event_base_t _base, int32_t _id, void* _data);
+
+
 static const char* TAG = "sound";
 
 static TaskHandle_t sound_task_handle = NULL;
 static uint8_t sound_buffer[512];
-
-
-static void _Noreturn sound_task(void* _);
-static void event_handler(void* _, esp_event_base_t _base, int32_t id, void* _data);
-
 
 void init_sound(void) {
     ESP_LOGI(TAG, "initializing sound");
@@ -33,7 +33,8 @@ void init_sound(void) {
     i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);
     i2s_stop(I2S_NUM_0);
 
-    esp_event_handler_instance_register(ALARM_EVENT, ESP_EVENT_ANY_ID, &event_handler, NULL, NULL);
+    esp_event_handler_instance_register(ALARM_EVENT, ALARM_EVENT_STARTED, &alarm_started_handler, NULL, NULL);
+    esp_event_handler_instance_register(ALARM_EVENT, ALARM_EVENT_STOPPED, &alarm_stopped_handler, NULL, NULL);
 }
 
 void start_sound(void) {
@@ -65,10 +66,14 @@ void sound_task(void* _) {
     }
 }
 
-void event_handler(void* _, esp_event_base_t _base, int32_t id, void* _data) {
-    if (id == ALARM_EVENT_STARTED) {
+void alarm_started_handler(void* _, esp_event_base_t _base, int32_t _id, void* _data) {
+    if (sound_task_handle != NULL) {
         xTaskNotify(sound_task_handle, 1, eSetValueWithOverwrite);
-    } else if (id == ALARM_EVENT_DISABLED || id == ALARM_EVENT_STOPPED || id == ALARM_EVENT_DELAYED) {
+    }
+}
+
+void alarm_stopped_handler(void* _, esp_event_base_t _base, int32_t _id, void* _data) {
+    if (sound_task_handle != NULL) {
         xTaskNotify(sound_task_handle, 0, eSetValueWithOverwrite);
     }
 }

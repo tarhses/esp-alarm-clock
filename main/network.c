@@ -9,11 +9,6 @@
 #include "storage.h"
 #include "config.h"
 
-static const char* TAG = "network";
-
-ESP_EVENT_DEFINE_BASE(NET_EVENT);
-
-
 /**
  * Network configuration.
  */
@@ -75,6 +70,10 @@ static void sntp_event_handler(struct timeval* tv);
  */
 static void wifi_event_handler(void* _, esp_event_base_t base, int32_t id, void* data);
 
+
+static const char* TAG = "network";
+
+ESP_EVENT_DEFINE_BASE(NET_EVENT);
 
 void init_network(void) {
     config_t config = {

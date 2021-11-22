@@ -24,6 +24,4 @@ void app_main(void) {
     start_sound();
     start_display();
     start_alarm();
-
-    esp_event_post(ALARM_EVENT, ALARM_EVENT_STARTED, NULL, 0, portMAX_DELAY);
 }

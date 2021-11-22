@@ -14,12 +14,6 @@
 #include "config.h"
 #include "mathx.h"
 
-static const char* TAG = "potentiometers";
-
-static TaskHandle_t calib_task_handle = NULL;
-static QueueHandle_t calib_queue_handle = NULL;
-
-
 /**
  * Current calibrated values read from the potentiometers.
  *
@@ -170,6 +164,11 @@ static void load_calibration_nvs(calibration_t* calib);
  */
 static void store_calibration_nvs(const calibration_t* calib);
 
+
+static const char* TAG = "potentiometers";
+
+static TaskHandle_t calib_task_handle = NULL;
+static QueueHandle_t calib_queue_handle = NULL;
 
 void init_potentiometers(void) {
     ESP_LOGI(TAG, "initializing potentiometers");
