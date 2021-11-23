@@ -1,7 +1,7 @@
 #include "images.h"
 
 const image_t BELL_ICONS[2] = {
-    {
+    { // "icons/bell_off.png"
         .width = 24,
         .height = 24,
         .buffer = (uint8_t[]){
@@ -31,7 +31,7 @@ const image_t BELL_ICONS[2] = {
             0xff, 0xff, 0xfc,
         },
     },
-    {
+    { // "icons/bell_on.png"
         .width = 24,
         .height = 24,
         .buffer = (uint8_t[]){
@@ -64,7 +64,7 @@ const image_t BELL_ICONS[2] = {
 };
 
 const image_t WIFI_ICONS[2] = {
-    {
+    { // "icons/wifi_off.png"
         .width = 24,
         .height = 24,
         .buffer = (uint8_t[]){
@@ -94,7 +94,7 @@ const image_t WIFI_ICONS[2] = {
             0xff, 0xff, 0xfc,
         },
     },
-    {
+    { // "icons/wifi_on.png"
         .width = 24,
         .height = 24,
         .buffer = (uint8_t[]){
@@ -127,7 +127,7 @@ const image_t WIFI_ICONS[2] = {
 };
 
 const image_t DIGITS_16[11] = {
-    {
+    { // "digits16/0.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -143,7 +143,7 @@ const image_t DIGITS_16[11] = {
             0xf0, 0x0f,
         },
     },
-    {
+    { // "digits16/1.png"
         .width = 16,
         .height = 6,
         .buffer = (uint8_t[]){
@@ -155,7 +155,7 @@ const image_t DIGITS_16[11] = {
             0xff, 0xf7,
         },
     },
-    {
+    { // "digits16/2.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -171,7 +171,7 @@ const image_t DIGITS_16[11] = {
             0x3f, 0xfd,
         },
     },
-    {
+    { // "digits16/3.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -187,7 +187,7 @@ const image_t DIGITS_16[11] = {
             0xbf, 0xfd,
         },
     },
-    {
+    { // "digits16/4.png"
         .width = 16,
         .height = 11,
         .buffer = (uint8_t[]){
@@ -204,7 +204,7 @@ const image_t DIGITS_16[11] = {
             0xf3, 0xff,
         },
     },
-    {
+    { // "digits16/5.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -220,7 +220,7 @@ const image_t DIGITS_16[11] = {
             0xbf, 0x01,
         },
     },
-    {
+    { // "digits16/6.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -236,7 +236,7 @@ const image_t DIGITS_16[11] = {
             0xf0, 0x1f,
         },
     },
-    {
+    { // "digits16/7.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -252,7 +252,7 @@ const image_t DIGITS_16[11] = {
             0xff, 0xfc,
         },
     },
-    {
+    { // "digits16/8.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -268,7 +268,7 @@ const image_t DIGITS_16[11] = {
             0xc3, 0xff,
         },
     },
-    {
+    { // "digits16/9.png"
         .width = 16,
         .height = 10,
         .buffer = (uint8_t[]){
@@ -284,7 +284,7 @@ const image_t DIGITS_16[11] = {
             0xff, 0x07,
         },
     },
-    {
+    { // "digits16/colon.png"
         .width = 16,
         .height = 3,
         .buffer = (uint8_t[]){
@@ -296,7 +296,7 @@ const image_t DIGITS_16[11] = {
 };
 
 const image_t DIGITS_72[11] = {
-    {
+    { // "digits72/0.png"
         .width = 72,
         .height = 44,
         .buffer = (uint8_t[]){
@@ -346,7 +346,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xff, 0x00, 0x00, 0x00, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/1.png"
         .width = 72,
         .height = 24,
         .buffer = (uint8_t[]){
@@ -376,7 +376,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xf0, 0xff,
         },
     },
-    {
+    { // "digits72/2.png"
         .width = 72,
         .height = 43,
         .buffer = (uint8_t[]){
@@ -425,7 +425,7 @@ const image_t DIGITS_72[11] = {
             0xc1, 0xff, 0xff, 0xff, 0xff, 0xff, 0x01, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/3.png"
         .width = 72,
         .height = 46,
         .buffer = (uint8_t[]){
@@ -477,7 +477,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0x80, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/4.png"
         .width = 72,
         .height = 54,
         .buffer = (uint8_t[]){
@@ -537,7 +537,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xe0, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/5.png"
         .width = 72,
         .height = 47,
         .buffer = (uint8_t[]){
@@ -590,7 +590,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xc0, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/6.png"
         .width = 72,
         .height = 43,
         .buffer = (uint8_t[]){
@@ -639,7 +639,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0x00, 0x1f, 0xff, 0xff, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/7.png"
         .width = 72,
         .height = 45,
         .buffer = (uint8_t[]){
@@ -690,7 +690,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff, 0x87,
         },
     },
-    {
+    { // "digits72/8.png"
         .width = 72,
         .height = 42,
         .buffer = (uint8_t[]){
@@ -738,7 +738,7 @@ const image_t DIGITS_72[11] = {
             0xff, 0xfe, 0x00, 0x07, 0xff, 0xff, 0xff, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/9.png"
         .width = 72,
         .height = 43,
         .buffer = (uint8_t[]){
@@ -787,10 +787,10 @@ const image_t DIGITS_72[11] = {
             0xff, 0xff, 0xff, 0xff, 0xff, 0xf8, 0x01, 0xff, 0xff,
         },
     },
-    {
+    { // "digits72/colon.png"
         .width = 72,
         .height = 14,
-        .buffer = (uint8_t[]) {
+        .buffer = (uint8_t[]){
             0xff, 0xfc, 0x3f, 0xff, 0xff, 0xff, 0xff, 0xff, 0xff,
             0xff, 0xf0, 0x0f, 0xff, 0xff, 0xff, 0xf8, 0xff, 0xff,
             0xff, 0xe0, 0x07, 0xff, 0xff, 0xff, 0xe0, 0x3f, 0xff,
