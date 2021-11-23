@@ -1,11 +1,7 @@
-# WIP files
-/old
-/sdkconfig.old
-
 # Build files
 /build
 /cmake-build-*
 
-# IDE specifics
+# IDE files
 /.idea
 /.vscode
