@@ -28,7 +28,7 @@ void epd_init(void) {
     });
 }
 
-void epd_on() {
+void epd_on(void) {
     ESP_LOGI(TAG, "power on");
 
     // Hardware reset
@@ -86,7 +86,7 @@ void epd_draw(uint8_t x, uint8_t y, uint8_t w, uint8_t h, const uint8_t* data) {
     write_command(0x24, data_size, data);
 }
 
-void epd_update() {
+void epd_update(void) {
     ESP_LOGI(TAG, "starting screen update");
 
     // Display update control 2 - 0xf7: display mode 1, 0xff: display mode 2 (?)
