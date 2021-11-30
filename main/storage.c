@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <string.h>
+#include <dirent.h>
 #include <sys/fcntl.h>
 #include <sys/unistd.h>
 
@@ -141,4 +144,48 @@ bool get_file_size(file_handle_t handle, size_t* size) {
 
     *size = stat.st_size;
     return true;
+}
+
+bool list_files(const char* path, char*** list, size_t* size) {
+    DIR* directory;
+    struct dirent* entry;
+    size_t buffer_size;
+
+    directory = opendir(path);
+    if (directory == NULL) {
+        ESP_LOGE(TAG, "opendir() failed");
+        return false;
+    }
+
+    *list = NULL;
+    *size = 0;
+    buffer_size = 0;
+
+    while ((entry = readdir(directory)) != NULL) {
+        if (entry->d_type == DT_REG) {
+            if (*size >= buffer_size) {
+                buffer_size = buffer_size == 0 ? 1 : buffer_size * 2;
+                *list = realloc(*list, buffer_size * sizeof(char**));
+            }
+
+            (*list)[*size] = strdup(entry->d_name);
+            *size += 1;
+        }
+    }
+
+    if (closedir(directory) == -1) {
+        free(*list);
+        ESP_LOGE(TAG, "closedir() failed");
+        return false;
+    }
+
+    return true;
+}
+
+char* concat_paths(const char* a, const char* b) {
+    size_t sa = strlen(a);
+    size_t sb = strlen(b);
+    char* result = malloc(sa + sb + 2);
+    sprintf(result, a[sa - 1] == '/' ? "%s%s" : "%s/%s", a, b);
+    return result;
 }

@@ -1,5 +1,8 @@
+#include <string.h>
+
 #include <esp_log.h>
 #include <esp_event.h>
+#include <esp_random.h>
 #include <driver/i2s.h>
 
 #include "sound.h"
@@ -15,6 +18,8 @@ static void alarm_stopped_handler(void* _, esp_event_base_t _base, int32_t _id, 
 static const char* TAG = "sound";
 
 static TaskHandle_t sound_task_handle = NULL;
+static char** ringings;
+static size_t ringings_count;
 static uint8_t sound_buffer[512];
 
 void init_sound(void) {
@@ -39,6 +44,9 @@ void init_sound(void) {
     i2s_set_dac_mode(I2S_DAC_CHANNEL_RIGHT_EN);
     i2s_stop(I2S_NUM_0);
 
+    list_files(SOUND_RINGINGS_PATH, &ringings, &ringings_count);
+    ESP_LOGI(TAG, "%zu ringings found", ringings_count);
+
     esp_event_handler_instance_register(ALARM_EVENT, ALARM_EVENT_STARTED, &alarm_started_handler, NULL, NULL);
     esp_event_handler_instance_register(ALARM_EVENT, ALARM_EVENT_STOPPED, &alarm_stopped_handler, NULL, NULL);
 }
@@ -54,7 +62,13 @@ void sound_task(void* _) {
 
         if (running) {
             file_handle_t file;
-            if (!open_file("/sdcard/ringing.raw", &file)) {
+            size_t choice = esp_random() % ringings_count;
+            char* ringing = concat_paths(SOUND_RINGINGS_PATH, ringings[choice]);
+            bool success = open_file(ringing, &file);
+            free(ringing);
+
+            if (!success) {
+                // TODO: play some fallback ringing
                 continue;
             }
 

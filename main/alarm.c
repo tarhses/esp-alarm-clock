@@ -73,16 +73,12 @@ void main_task(void* _) {
 
     for (;;) {
         bool long_press;
-        if (xQueueReceive(button_queue, &long_press, 0)) {
-            if (delayed) {
-                esp_event_post(ALARM_EVENT, ALARM_EVENT_STOPPED, NULL, 0, portMAX_DELAY);
-                if (long_press) {
-                    esp_event_post(ALARM_EVENT, ALARM_EVENT_DELAYED, &alarm, sizeof(alarm_time_t), portMAX_DELAY);
-                } else {
-                    delayed = false;
-                }
+        if (xQueueReceive(button_queue, &long_press, 0) && delayed) {
+            esp_event_post(ALARM_EVENT, ALARM_EVENT_STOPPED, NULL, 0, portMAX_DELAY);
+            if (long_press) {
+                esp_event_post(ALARM_EVENT, ALARM_EVENT_DELAYED, &alarm, sizeof(alarm_time_t), portMAX_DELAY);
             } else {
-                // TODO: change ringing
+                delayed = false;
             }
         }
 

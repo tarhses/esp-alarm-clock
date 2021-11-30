@@ -57,3 +57,24 @@ bool read_file_json(file_handle_t handle, cJSON** json);
  * @return Whether the operation succeeded
  */
 bool get_file_size(file_handle_t handle, size_t* size);
+
+/**
+ * List every regular files in a given folder.
+ *
+ * A list of strings will be allocated and must be freed by the caller.
+ *
+ * @param path Where to find the folder
+ * @param list In case of success, this list will contain the filenames
+ * @param size In case of success, this will be set to the number of files
+ * @return Whether the operation succeeded
+ */
+bool list_files(const char* path, char*** list, size_t* size);
+
+/**
+ * Concatenate two paths adding a '/' between them if needed.
+ *
+ * @param a The first path (a directory)
+ * @param b The second path
+ * @return A new allocated path that must be freed
+ */
+char* concat_paths(const char* a, const char* b);
