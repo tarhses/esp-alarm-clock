@@ -7,6 +7,7 @@
 
 #include "network.h"
 #include "storage.h"
+#include "alarm.h"
 #include "config.h"
 
 /**
@@ -72,8 +73,6 @@ static void wifi_event_handler(void* _, esp_event_base_t base, int32_t id, void*
 
 
 static const char* TAG = "network";
-
-ESP_EVENT_DEFINE_BASE(NET_EVENT);
 
 void init_network(void) {
     config_t config = {
@@ -187,14 +186,14 @@ void wifi_event_handler(void* _, esp_event_base_t base, int32_t id, void* data) 
             ESP_LOGE(TAG, "disconnected from %.*s", event->ssid_len, event->ssid);
             sntp_stop();
             esp_wifi_connect();
-            esp_event_post(NET_EVENT, NET_EVENT_DISCONNECTED, NULL, 0, portMAX_DELAY);
+            esp_event_post(ALARM_EVENT, ALARM_EVENT_DISCONNECTED, NULL, 0, portMAX_DELAY);
         }
     } else if (base == IP_EVENT) {
         if (id == IP_EVENT_STA_GOT_IP) {
             ip_event_got_ip_t* event = data;
             ESP_LOGI(TAG, "got ip address: " IPSTR, IP2STR(&event->ip_info.ip));
             sntp_init();
-            esp_event_post(NET_EVENT, NET_EVENT_CONNECTED, NULL, 0, portMAX_DELAY);
+            esp_event_post(ALARM_EVENT, ALARM_EVENT_CONNECTED, NULL, 0, portMAX_DELAY);
         }
     }
 }

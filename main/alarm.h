@@ -18,6 +18,8 @@ typedef enum {
     ALARM_EVENT_STARTED, /**< The alarm starts ringing */
     ALARM_EVENT_STOPPED, /**< The alarm stops ringing */
     ALARM_EVENT_DELAYED, /**< The alarm is delayed */
+    ALARM_EVENT_CONNECTED, /**< Connected to WiFi, got an IP address */
+    ALARM_EVENT_DISCONNECTED, /**< Disconnected from WiFi */
 } alarm_event_t;
 
 /**

@@ -1,20 +1,5 @@
 #pragma once
 
-#include <esp_event.h>
-
-/**
- * Network events base.
- */
-ESP_EVENT_DECLARE_BASE(NET_EVENT);
-
-/**
- * Network events.
- */
-typedef enum {
-    NET_EVENT_CONNECTED, /**< Connected to WiFi, got an IP address */
-    NET_EVENT_DISCONNECTED, /**< Disconnected from WiFi */
-} net_event_t;
-
 /*
  * Initialize the network features.
  *

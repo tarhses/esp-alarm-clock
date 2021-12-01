@@ -100,6 +100,16 @@ void control_task(void* _) {
                 }
                 break;
 
+            case ALARM_EVENT_CONNECTED:
+                status.network_connected = true;
+                dirty = true;
+                break;
+
+            case ALARM_EVENT_DISCONNECTED:
+                status.network_connected = false;
+                dirty = true;
+                break;
+
             default:
                 break;
         }
