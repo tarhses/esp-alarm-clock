@@ -76,13 +76,17 @@ void control_task(void* _) {
                 break;
 
             case ALARM_EVENT_ENABLED:
-                status.alarm_enabled = true;
-                dirty = true;
+                if (!status.alarm_enabled) {
+                    status.alarm_enabled = true;
+                    dirty = true;
+                }
                 break;
 
             case ALARM_EVENT_DISABLED:
-                status.alarm_enabled = false;
-                dirty = true;
+                if (status.alarm_enabled) {
+                    status.alarm_enabled = false;
+                    dirty = true;
+                }
                 break;
 
             case ALARM_EVENT_STOPPED:
@@ -101,13 +105,17 @@ void control_task(void* _) {
                 break;
 
             case ALARM_EVENT_CONNECTED:
-                status.network_connected = true;
-                dirty = true;
+                if (!status.network_connected) {
+                    status.network_connected = true;
+                    dirty = true;
+                }
                 break;
 
             case ALARM_EVENT_DISCONNECTED:
-                status.network_connected = false;
-                dirty = true;
+                if (status.network_connected) {
+                    status.network_connected = false;
+                    dirty = true;
+                }
                 break;
 
             default:
