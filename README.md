@@ -2,6 +2,8 @@
 
 This is still a work in progress.
 
+It has been tested with ESP-IDF version 4.3.2.
+
 ## Build
 
 `idf.py build`
